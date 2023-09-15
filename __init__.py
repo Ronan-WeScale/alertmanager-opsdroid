@@ -35,7 +35,7 @@ class AlertManager(Skill):
                 )))
             elif "receiver" == "mattermost":
                 await self.opsdroid.send(Message(str(
-                    "{status} {name} ({severity}): {message} in: {origin}".
+                    "{status} {name} ({severity}): {message} in: {origin} {target}".
                     format(
                         target="channel_name",
                         status=alert["status"].upper(),
