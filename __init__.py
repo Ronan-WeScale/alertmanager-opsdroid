@@ -25,10 +25,11 @@ class AlertManager(Skill):
                 :fire: {status} :fire:
                 **Started at:** {start}
                 '''
-                status=alert["status"].upper()
-                start=alert["startsAt"]
+                
 
             await self.opsdroid.send(Message(
                         target=payload["channel_name"],
-                        text=msg.format(status=status,start=start)
-                ))
+                        text=str(msg.format(
+                            status=alert["status"].upper()
+                            start=alert["startsAt"]))
+                        )))
