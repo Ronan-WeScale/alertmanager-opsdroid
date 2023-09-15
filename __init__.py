@@ -31,7 +31,7 @@ class AlertManager(Skill):
                         text=msg,
                         connector="mattermost")
             )
-            msg = (f"U+1F525 {status} U+1F525\n"
+            msg = (f"&#128293; {status} U+1F525\n"
                        f"**Started at:** {start}\n")
             await self.opsdroid.send(Message(str(
                 "{status} {name} ({severity}): {message}".
