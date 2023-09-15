@@ -33,6 +33,18 @@ class AlertManager(Skill):
                         origin=alert["labels"]["origin"].upper(),
                         message=msg)
                 )))
+            elif "receiver" == "mattermost":
+                await self.opsdroid.send(Message(str(
+                    "{status} {name} ({severity}): {message} in: {origin}".
+                    format(
+                        team_name="team_name",
+                        channel_name="channel_name",
+                        status=alert["status"].upper(),
+                        name=alert["labels"]["alertname"],
+                        severity=alert["labels"]["severity"].upper(),
+                        origin=alert["labels"]["origin"].upper(),
+                        message=msg)
+                )))
             else:
                 await self.opsdroid.send(Message(str(
                     "{status} {name} ({severity}): {message}".
