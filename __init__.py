@@ -15,7 +15,7 @@ class AlertManager(Skill):
         payload = await event.json()
         _LOGGER.debug('payload receiveddd by alertmanager: ' +
                       pprint.pformat(payload))
-
+        pprint.pformat(payload)
         for alert in payload["alerts"]:
             msg = ""
             if "message" in alert["annotations"]:
