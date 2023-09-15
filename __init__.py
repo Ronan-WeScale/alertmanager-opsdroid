@@ -23,18 +23,7 @@ class AlertManager(Skill):
             elif "description" in alert["annotations"]:
                 msg = alert["annotations"]["description"]
 
-            if "origin" in alert["labels"]:
-                await self.opsdroid.send(Message(str(
-                    "{status} {name} ({severity}): {message} in: {origin}".
-                    format(
-                        status=alert["status"].upper(),
-                        name=alert["labels"]["alertname"],
-                        severity=alert["labels"]["severity"].upper(),
-                        origin=alert["labels"]["origin"].upper(),
-                        message=msg)
-                )))
-            elif alert["receiver"] == "mattermost":
-                await self.opsdroid.send(Message(str(
+            await self.opsdroid.send(Message(str(
                     "{status} {name} ({severity}): {message} in: {origin} {target}".
                     format(
                         target=alert["channel_name"],
@@ -42,14 +31,5 @@ class AlertManager(Skill):
                         name=alert["labels"]["alertname"],
                         severity=alert["labels"]["severity"].upper(),
                         origin=alert["labels"]["origin"].upper(),
-                        message=msg)
-                )))
-            else:
-                await self.opsdroid.send(Message(str(
-                    "{status} {name} ({severity}): {message}".
-                    format(
-                        status=alert["status"].upper(),
-                        name=alert["labels"]["alertname"],
-                        severity=alert["labels"]["severity"].upper(),
                         message=msg)
                 )))
