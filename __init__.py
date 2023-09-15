@@ -38,4 +38,4 @@ class AlertManager(Skill):
                     name=alert["labels"]["alertname"],
                     severity=alert["labels"]["severity"].upper(),
                     message=msg)),
-                connector="mattermost"))
+                connector="matrix"))
