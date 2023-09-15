@@ -37,8 +37,7 @@ class AlertManager(Skill):
                 await self.opsdroid.send(Message(str(
                     "{status} {name} ({severity}): {message} in: {origin}".
                     format(
-                        team_name="team_name",
-                        channel_name="channel_name",
+                        target="channel_name",
                         status=alert["status"].upper(),
                         name=alert["labels"]["alertname"],
                         severity=alert["labels"]["severity"].upper(),
