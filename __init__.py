@@ -6,6 +6,7 @@ from opsdroid.events import Message
 
 import logging
 import pprint
+import os
 
 from .j2_template_engine import load_j2_template_engine
 
