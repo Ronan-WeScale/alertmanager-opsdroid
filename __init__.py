@@ -31,4 +31,4 @@ class AlertManager(Skill):
             await self.opsdroid.send(Message(
                         target=payload["channel_name"],
                         text=msg.format(status=status,start=start)
-                )
+                ))
