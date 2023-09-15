@@ -32,4 +32,4 @@ class AlertManager(Skill):
                         text=str(msg.format(
                             status=alert["status"].upper(),
                             start=alert["startsAt"]))
-                        )))
+                        ))
