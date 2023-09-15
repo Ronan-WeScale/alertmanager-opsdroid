@@ -37,7 +37,7 @@ class AlertManager(Skill):
             
             await self.opsdroid.send(Message(
                         target=payload["channel_name"],
-                        text=J2_TEMPLATE_ENGINE.render(rendered_alert),
+                        text=rendered_alert,
                         connector="mattermost")
             )
             msg = (f"&#128293; {status} &#128293;\n"
