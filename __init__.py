@@ -25,8 +25,9 @@ class AlertManager(Skill):
                 start=alert["startsAt"]
                 msg = (f":fire: {status} :fire:\n"
                        f"**Started at:** {start}\n")
-                
+
             await self.opsdroid.send(Message(
                         target=payload["channel_name"],
-                        text=msg)
+                        text=msg,
+                        connector="mattermost")
             )
