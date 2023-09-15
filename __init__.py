@@ -7,7 +7,6 @@ from opsdroid.events import Message
 import logging
 import pprint
 import os
-import iso8601
 
 from .j2_template_engine import load_j2_template_engine
 
@@ -32,18 +31,9 @@ class AlertManager(Skill):
                 start=alert["startsAt"]
                 msg = (f":fire: {status} :fire:\n"
                        f"**Started at:** {start}\n")
-            render_payload = {
-                'origin': origin
-            }
-            for field in ["startsAt", "endsAt", "updatedAt"]:
-                try:
-                    alert[f'{field}DateTime'] = iso8601.parse_date(alert[field])
-                except (KeyError, TypeError, ValueError):
-                    pass
+            render_payload = {}
             render_payload.update(alert)
             rendered_alert = J2_TEMPLATE_ENGINE.render(render_payload)
-            channel_name = request.args.get('channel', '')
-            pprint(channel_name)
             
             await self.opsdroid.send(Message(
                         target=payload["channel_name"],
