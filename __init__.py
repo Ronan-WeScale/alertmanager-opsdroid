@@ -7,6 +7,8 @@ from opsdroid.events import Message
 import logging
 import pprint
 
+from .j2_template_engine import load_j2_template_engine
+
 _LOGGER = logging.getLogger(__name__)
 
 class AlertManager(Skill):
@@ -15,6 +17,9 @@ class AlertManager(Skill):
         payload = await event.json()
         _LOGGER.debug('payload receiveddd by alertmanager: ' +
                       pprint.pformat(payload))
+        
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        J2_TEMPLATE_ENGINE = load_j2_template_engine(dir_path + '/mattermost.j2')
         
         for alert in payload["alerts"]:
             msg = ""
@@ -25,10 +30,20 @@ class AlertManager(Skill):
                 start=alert["startsAt"]
                 msg = (f":fire: {status} :fire:\n"
                        f"**Started at:** {start}\n")
-
+            render_payload = {
+                'origin': origin
+            }
+            for field in ["startsAt", "endsAt", "updatedAt"]:
+                try:
+                    alert[f'{field}DateTime'] = iso8601.parse_date(alert[field])
+                except (KeyError, TypeError, ValueError):
+                    pass
+            render_payload.update(alert)
+            rendered_alert = J2_TEMPLATE_ENGINE.render(render_payload)
+            
             await self.opsdroid.send(Message(
                         target=payload["channel_name"],
-                        text=msg,
+                        text=J2_TEMPLATE_ENGINE.render(rendered_alert),
                         connector="mattermost")
             )
             msg = (f"&#128293; {status} &#128293;\n"
