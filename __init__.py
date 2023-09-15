@@ -21,9 +21,14 @@ class AlertManager(Skill):
             if "message" in alert["annotations"]:
                 msg = alert["annotations"]["message"]
             elif "description" in alert["annotations"]:
-                msg = ":fire: " + alert["status"] + " :fire:"
+                msg = '''
+                :fire: {status} :fire:
+                **Started at:** {start}
+                '''
+                status=alert["status"].upper()
+                start=alert["startsAt"]
 
             await self.opsdroid.send(Message(
                         target=payload["channel_name"],
-                        text=msg)
+                        text=msg.format(status=status,start=start)
                 )
