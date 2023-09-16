@@ -45,11 +45,12 @@ class AlertManager(Skill):
             )
             msg = (f"&#128293; {status} &#128293;\n"
                        f"**Started at:** {start}\n")
-            await self.opsdroid.send(Message(str(
-                "{status} {name} ({severity}): {message}".
-                format(
-                    status=alert["status"].upper(),
-                    name=alert["labels"]["alertname"],
-                    severity=alert["labels"]["severity"].upper(),
-                    message=msg)),
-                connector="matrix"))
+            if 'matrix' in self.opsdroid._connector_names[event.connector]:
+                await self.opsdroid.send(Message(str(
+                    "{status} {name} ({severity}): {message}".
+                    format(
+                        status=alert["status"].upper(),
+                        name=alert["labels"]["alertname"],
+                        severity=alert["labels"]["severity"].upper(),
+                        message=msg)),
+                    connector="matrix"))
