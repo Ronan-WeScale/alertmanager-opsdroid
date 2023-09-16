@@ -18,7 +18,7 @@ class AlertManager(Skill):
         payload = await event.json()
         _LOGGER.debug('payload receiveddd by alertmanager: ' +
                       pprint.pformat(payload))
-        channel_name = request.rel_url.query['channel_name']
+        channel_name = event.rel_url.query['channel_name']
         _LOGGER.debug(channel_name)
         
         dir_path = os.path.dirname(os.path.realpath(__file__))
