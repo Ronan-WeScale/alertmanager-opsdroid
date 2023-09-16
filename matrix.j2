@@ -1,0 +1,13 @@
+{%- if labels.severity == 'critical' -%}
+{% set icon = '&#128293;' %}
+{%- elif labels.severity == 'warning' -%}
+{% set icon = '&#9888;' %}
+{%- elif labels.severity == 'info' -%}
+{% set icon = '&#8505;' %}
+{%- endif -%}
+{{ icon }} *{{ labels.alertname }} - {{ status | title }}* (Origin: _{{ labels.origin }}_)
+```
+{% for key, value in annotations.items() -%}
+{{ key | title }}: {{ value }}
+{% endfor -%}
+```
