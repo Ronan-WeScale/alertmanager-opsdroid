@@ -23,14 +23,6 @@ class AlertManager(Skill):
         J2_TEMPLATE_ENGINE = load_j2_template_engine(dir_path + '/mattermost.j2')
         
         for alert in payload["alerts"]:
-            msg = ""
-            if "message" in alert["annotations"]:
-                msg = alert["annotations"]["message"]
-            elif "description" in alert["annotations"]:
-                status=alert["status"].upper()
-                start=alert["startsAt"]
-                msg = (f":fire: {status} :fire:\n"
-                       f"**Started at:** {start}\n")
             origin = event.rel_url.query['origin']
             render_payload = {
                 'origin': origin
@@ -43,15 +35,8 @@ class AlertManager(Skill):
                         text=rendered_alert,
                         connector="mattermost")
             )
-            msg = (f"&#128293; {status} &#128293;\n"
-                       f"**Started at:** {start}\n")
             matrix = self.opsdroid.get_connector("matrix")
             if matrix:
-                await self.opsdroid.send(Message(str(
-                    "{status} {name} ({severity}): {message}".
-                    format(
-                        status=alert["status"].upper(),
-                        name=alert["labels"]["alertname"],
-                        severity=alert["labels"]["severity"].upper(),
-                        message=msg)),
+                await self.opsdroid.send(Message(
+                    text=rendered_alert)),
                     connector="matrix"))
