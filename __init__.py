@@ -20,7 +20,8 @@ class AlertManager(Skill):
                       pprint.pformat(payload))
         
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        J2_TEMPLATE_ENGINE = load_j2_template_engine(dir_path + '/mattermost.j2')
+        TEMPLATE_MATTERMOST = load_j2_template_engine(dir_path + '/mattermost.j2')
+        TEMPLATE_MATRIX = load_j2_template_engine(dir_path + '/matrix.j2')
         
         for alert in payload["alerts"]:
             origin = event.rel_url.query['origin']
@@ -28,16 +29,17 @@ class AlertManager(Skill):
                 'origin': origin
             }
             render_payload.update(alert)
-            rendered_alert = J2_TEMPLATE_ENGINE.render(render_payload)
+            rendered_mattermost = TEMPLATE_MATTERMOST.render(render_payload)
+            rendered_matrix = TEMPLATE_MATRIX.render(render_payload)
             
             await self.opsdroid.send(Message(
                         target=event.rel_url.query['channel_name'],
-                        text=rendered_alert,
+                        text=rendered_mattermost,
                         connector="mattermost")
             )
             matrix = self.opsdroid.get_connector("matrix")
             if matrix:
                 await self.opsdroid.send(Message(
-                            text=rendered_alert,
+                            text=rendered_matrix,
                             connector="matrix")
                 )
