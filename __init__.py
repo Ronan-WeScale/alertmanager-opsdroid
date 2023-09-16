@@ -38,5 +38,5 @@ class AlertManager(Skill):
             matrix = self.opsdroid.get_connector("matrix")
             if matrix:
                 await self.opsdroid.send(Message(
-                            text=rendered_alert),
+                            text=rendered_alert,
                             connector="matrix")
