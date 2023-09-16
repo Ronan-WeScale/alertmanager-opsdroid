@@ -31,7 +31,7 @@ class AlertManager(Skill):
                 start=alert["startsAt"]
                 msg = (f":fire: {status} :fire:\n"
                        f"**Started at:** {start}\n")
-            origin = event.rel_url.query['channel_name']
+            origin = event.rel_url.query['origin']
             render_payload = {
                 'origin': origin
             }
