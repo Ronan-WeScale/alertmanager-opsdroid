@@ -18,6 +18,8 @@ class AlertManager(Skill):
         payload = await event.json()
         _LOGGER.debug('payload receiveddd by alertmanager: ' +
                       pprint.pformat(payload))
+        channel_name = request.rel_url.query['channel_name']
+        _LOGGER.debug(channel_name)
         
         dir_path = os.path.dirname(os.path.realpath(__file__))
         J2_TEMPLATE_ENGINE = load_j2_template_engine(dir_path + '/mattermost.j2')
