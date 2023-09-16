@@ -18,8 +18,6 @@ class AlertManager(Skill):
         payload = await event.json()
         _LOGGER.debug('payload receiveddd by alertmanager: ' +
                       pprint.pformat(payload))
-        channel_name = event.rel_url.query['channel_name']
-        _LOGGER.debug(channel_name)
         
         dir_path = os.path.dirname(os.path.realpath(__file__))
         J2_TEMPLATE_ENGINE = load_j2_template_engine(dir_path + '/mattermost.j2')
@@ -33,12 +31,15 @@ class AlertManager(Skill):
                 start=alert["startsAt"]
                 msg = (f":fire: {status} :fire:\n"
                        f"**Started at:** {start}\n")
-            render_payload = {}
+            origin = event.rel_url.query['channel_name']
+            render_payload = {
+                'origin': origin
+            }
             render_payload.update(alert)
             rendered_alert = J2_TEMPLATE_ENGINE.render(render_payload)
             
             await self.opsdroid.send(Message(
-                        target=payload["channel_name"],
+                        target=event.rel_url.query['channel_name'],
                         text=rendered_alert,
                         connector="mattermost")
             )
