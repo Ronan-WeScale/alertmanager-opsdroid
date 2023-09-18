@@ -9,6 +9,7 @@
 AlertName : **{{ labels.alertname }} - {{ status | title }}**
 {%- if labels.namespace %}
 Namespace :  {{ labels.namespace }}
+{%- endif %}
 ```
 {% for key, value in annotations.items() -%}
 {{ key | title }}: {{ value }}
