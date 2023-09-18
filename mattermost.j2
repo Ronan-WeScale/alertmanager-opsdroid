@@ -5,7 +5,8 @@
 {%- elif labels.severity == 'info' -%}
 {% set icon = ':information_source:' %}
 {%- endif -%}
-{{ icon }} *{{ labels.alertname }} - {{ status | title }}* (Origin: _{{ labels.origin }}_)
+{{ icon }} **{{ labels.origin }}** {{ icon }}
+**{{ labels.alertname }} - {{ status | title }}**
 ```
 {% for key, value in annotations.items() -%}
 {{ key | title }}: {{ value }}
