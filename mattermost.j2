@@ -6,7 +6,9 @@
 {% set icon = ':information_source:' %}
 {%- endif -%}
 {{ icon }} **{{ labels.origin }}** {{ icon }}
-**{{ labels.alertname }} - {{ status | title }}**
+AlertName : **{{ labels.alertname }} - {{ status | title }}**
+{%- if labels.namespace %}
+Namespace :  {{ labels.namespace }}
 ```
 {% for key, value in annotations.items() -%}
 {{ key | title }}: {{ value }}
