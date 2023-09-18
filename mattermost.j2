@@ -5,7 +5,7 @@
 {%- elif labels.severity == 'info' -%}
 {% set icon = ':information_source:' %}
 {%- endif -%}
-{{ icon }} **{{ labels.origin }}** {{ icon }}
+{{ icon }} **{{ origin }}** {{ icon }}
 AlertName : **{{ labels.alertname }} - {{ status | title }}**
 {%- if labels.namespace %}
 Namespace :  {{ labels.namespace }}
