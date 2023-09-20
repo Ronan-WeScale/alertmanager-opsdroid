@@ -1,0 +1,17 @@
+{%- if labels.severity == 'critical' -%}
+{% set icon = ':fire:' %}
+{%- elif labels.severity == 'warning' -%}
+{% set icon = ':warning:' %}
+{%- elif labels.severity == 'info' -%}
+{% set icon = ':information_source:' %}
+{%- endif -%}
+{{ icon }} **{{ origin }}** {{ icon }}
+AlertName : **{{ labels.alertname }} - {{ status | title }}**
+{%- if labels.namespace %}
+Namespace :  {{ labels.namespace }}
+{%- endif %}
+```
+{% for key, value in annotations.items() -%}
+{{ key | title }}: {{ value }}
+{% endfor -%}
+```
